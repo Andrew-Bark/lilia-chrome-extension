@@ -1,0 +1,9 @@
+export { default as Da_R } from './dk.svg'; // Danish
+export { default as En_R } from './gb.svg'; // English
+export { default as Fr_R } from './fr.svg'; // French
+export { default as Ge_R } from './de.svg'; // German
+export { default as It_R } from './it.svg'; // Italian
+export { default as No_R } from './no.svg'; // Norwegian
+export { default as Pt_R } from './pt.svg'; // Portuguese
+export { default as Sp_R } from './es.svg'; // Spanish
+export { default as Sw_R } from './se.svg'; // Swedish
