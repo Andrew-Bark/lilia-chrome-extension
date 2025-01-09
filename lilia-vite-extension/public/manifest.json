@@ -6,9 +6,10 @@
     "action": {
         "default_popup": "index.html"
     },
-    "permissions": [
-        "scripting"
-    ],
+    "permissions": ["contextMenus", "activeTab", "scripting"],
+  "background": {
+    "service_worker": "background.js"
+  },
     "host_permissions": [
         "http://*/*",
         "https://*/*"

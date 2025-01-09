@@ -15,7 +15,7 @@ function App() {
   // };
 
   return (
-    <div className="flex flex-col items-center justify-center w-full p-4 font-semibold">
+    <div className="flex flex-col items-center justify-center w-[400px]  p-4 font-semibold">
       <div className="space-y-8 border-2 p-4 border-black rounded-md w-fit">
         {/* Language input */}
         <LanguageSelector />

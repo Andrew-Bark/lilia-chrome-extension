@@ -6,6 +6,27 @@ const DifficultySelector = () => {
   const difficultyLevels = ["A1", "A2", "B1", "B2", "C1", "C2"];
   const [isDifficultyEnabled, setIsDifficultyEnabled] = useState(true);
   const [difficulty, setDifficulty] = useState(0);
+
+  const sendDataToExtension = () => {
+    chrome.runtime.sendMessage(
+      {
+        type: "SEND_DATA",
+        data: { isDifficultyEnabled, difficulty },
+      },
+      (response) => console.log("Response from background", response)
+    );
+  };
+
+  const handleDifficultyToggle = () => {
+    setIsDifficultyEnabled((prevstate) => !prevstate);
+    chrome.runtime.sendMessage(
+      {
+        type: "SEND_DATA",
+        data: { isDifficultyEnabled: !isDifficultyEnabled },
+      },
+      (response) => console.log("Response from background", response)
+    );
+  };
   return (
     <div className=" flex flex-col space-y-4 items-start">
       <div className="flex items-center justify-between w-full ">
@@ -13,7 +34,7 @@ const DifficultySelector = () => {
         <Checkbox
           id="difficulty-toggle"
           checked={isDifficultyEnabled}
-          onCheckedChange={() => setIsDifficultyEnabled(!isDifficultyEnabled)}
+          onCheckedChange={handleDifficultyToggle}
         />
       </div>
 
@@ -26,7 +47,7 @@ const DifficultySelector = () => {
             step={1}
             value={[difficulty]}
             onValueChange={(value) => setDifficulty(value[0])}
-            onValueCommit={() => console.log("Changed difficulty")}
+            onValueCommit={sendDataToExtension}
             className="w-full"
           />
           <div className="flex justify-between text-sm text-gray-500">
