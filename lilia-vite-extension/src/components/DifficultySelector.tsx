@@ -37,7 +37,6 @@ const DifficultySelector = () => {
           onCheckedChange={handleDifficultyToggle}
         />
       </div>
-
       {isDifficultyEnabled && (
         <div className="flex flex-col gap-2 w-full">
           <Slider

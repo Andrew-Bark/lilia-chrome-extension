@@ -7,11 +7,16 @@
         "default_popup": "index.html"
     },
     "permissions": ["contextMenus", "activeTab", "scripting"],
-  "background": {
-    "service_worker": "background.js"
-  },
+    "background": {
+      "service_worker": "src/background.ts"
+    },
     "host_permissions": [
         "http://*/*",
         "https://*/*"
-    ]
+    ],
+    "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["src/content.tsx"]
+    }]
 }

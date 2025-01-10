@@ -6,10 +6,10 @@ chrome.runtime.onInstalled.addListener(() => {
     });
   });
 
-const wordData = {language: "english", isDifficultyEnabled: false};
+const wordData = {language: "english", isDifficultyEnabled: false, word: "", sentence: "", difficulty: 0};
 
 function getSelectedText() {
-    const selection = window.getSelection();
+    const selection = window.getSelection() as Selection;
     const text = selection.toString().trim();
     console.log("selectedText", text);
     if (text.split(' ').length > 1) {
@@ -21,7 +21,8 @@ function getSelectedText() {
         const range = selection.getRangeAt(0);
         const node = range.startContainer;
 
-        const nodeText = node.textContent;
+        const nodeText = node.textContent as String;
+        
         // Get the start and end offset of the selected text within the node
         const startOffset = range.startOffset;
         const endOffset = range.endOffset;
@@ -62,7 +63,7 @@ function getSelectedText() {
     return null;
 }
   
-async function fetchTranslation(textObj, tab) {
+async function fetchTranslation(textObj: any, tab: any) {
     // send this textObj to the server, with the parameters (difficultyenabled, difficulty, target language)
     wordData.word = textObj.word;
     wordData.sentence = textObj.sentence;
@@ -93,10 +94,11 @@ async function fetchTranslation(textObj, tab) {
 }
 
 chrome.contextMenus.onClicked.addListener((info, tab) => {
+    const tabId: number = tab?.id ?? 20; 
     if (info.menuItemId === "translateWord") {
       chrome.scripting.executeScript({
-        target: { tabId: tab.id },
-        function: getSelectedText
+        target: { tabId },
+        func: getSelectedText
       }, (results) => {
         const selectedText = results[0].result;
         if (selectedText) {
