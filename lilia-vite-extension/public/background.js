@@ -25,16 +25,13 @@ function getSelectedText() {
         // Get the start and end offset of the selected text within the node
         const startOffset = range.startOffset;
         const endOffset = range.endOffset;
-        console.log("endOffset",endOffset)
         // Find the sentence boundaries
         const beforeSelection = nodeText.slice(0, startOffset);
         const afterSelection = nodeText.slice(endOffset);
-        console.log("afterSelection",afterSelection)
         
         // Use regular expressions to find the boundaries of the sentence
         const sentenceStart = beforeSelection.lastIndexOf('.') + 1 || 0;
         let sentenceEnd = afterSelection.search(/[.!?]/) + endOffset;
-        console.log("sentenceEnd", sentenceEnd);
 
         while (
             // continue if its a decimal number (eg 4.5 is not the end of the sentence)
@@ -65,12 +62,27 @@ function getSelectedText() {
     return null;
 }
   
-function fetchTranslation(textObj) {
+async function fetchTranslation(textObj) {
     // send this textObj to the server, with the parameters (difficultyenabled, difficulty, target language)
     wordData.word = textObj.word;
     wordData.sentence = textObj.sentence;
 
     console.log("wordData", wordData);
+
+    try {
+      const response = await fetch('http://localhost:3000/message', {
+        method: "POST", 
+        body: JSON.stringify(wordData),
+        headers: {
+            "Content-Type": "application/json"
+        },
+    })
+    const data = await response.json();
+    console.log(data)
+    } catch (error) {
+      console.log('API fetching error', error)
+      
+    }
 }
 
 chrome.contextMenus.onClicked.addListener((info, tab) => {
