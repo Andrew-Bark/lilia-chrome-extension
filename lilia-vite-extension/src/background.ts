@@ -87,6 +87,7 @@ async function fetchTranslation(textObj: any, tab: any) {
       } else {
           console.log('Message sent successfully');
       }
+      console.log(response)
   });
     } catch (error) {
       console.log('API fetching error', error)

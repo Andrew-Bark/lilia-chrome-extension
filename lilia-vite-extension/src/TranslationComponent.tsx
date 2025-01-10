@@ -1,27 +1,17 @@
-import ReactDOM from "react-dom";
-
-function TranslationPopup() {
-  return (
-    <div className="w-[400px] h-[300px] bg-red-500">
-      <h4>Translation</h4>
-      <p>
-        <strong>Word:</strong>{" "}
-      </p>
-      <p>
-        <strong>Sentence:</strong>{" "}
-      </p>
-      <p>
-        <strong>Translation:</strong>{" "}
-      </p>
-    </div>
-  );
-}
+import { createRoot } from "react-dom/client";
+import { StrictMode } from "react";
+import TranslationPopup from "@/components/TranslationPopup";
 
 function mountTranslationPopup() {
+  console.log("Hello from mounting function");
   const root = document.createElement("div");
   root.id = "translation-popup-root";
-  document.body.appendChild(root);
-  ReactDOM.createPortal(<TranslationPopup />, root);
+  document.body.append(root);
+  createRoot(root).render(
+    <StrictMode>
+      <TranslationPopup />
+    </StrictMode>
+  );
 }
 
 export default mountTranslationPopup;
