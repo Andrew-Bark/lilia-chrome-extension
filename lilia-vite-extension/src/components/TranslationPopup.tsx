@@ -1,19 +1,17 @@
 "use client";
 
 import * as React from "react";
-import { Minus, Plus } from "lucide-react";
+import { XIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+import { Card, CardContent, CardTitle } from "./ui/card";
 
 export default function TranslationPopup() {
   const [goal, setGoal] = React.useState(350);
@@ -22,56 +20,46 @@ export default function TranslationPopup() {
     setGoal(Math.max(200, Math.min(400, goal + adjustment)));
   }
 
+  const [openDrawer, setOpenDrawer] = React.useState(true);
+
+  const wordData = { word: "Hello" };
   return (
-    <Drawer>
-      <DrawerTrigger asChild>
-        <Button variant="outline">Open Drawer</Button>
-      </DrawerTrigger>
+    <Drawer open={openDrawer}>
       <DrawerContent>
-        <div className="mx-auto w-full max-w-sm">
+        <DrawerTrigger asChild>
+          <Button
+            variant="outline"
+            className=" absolute right-2"
+            onClick={() => setOpenDrawer(false)}
+          >
+            <XIcon className="h-5 w-5" />
+          </Button>
+        </DrawerTrigger>
+        <div className="mx-auto w-full max-w-sm items-center flex flex-col ">
           <DrawerHeader>
-            <DrawerTitle>Move Goal</DrawerTitle>
-            <DrawerDescription>Set your daily activity goal.</DrawerDescription>
+            <DrawerTitle className="text-4xl">{wordData.word}</DrawerTitle>
           </DrawerHeader>
-          <div className="p-4 pb-0">
-            <div className="flex items-center justify-center space-x-2">
-              <Button
-                variant="outline"
-                size="icon"
-                className="h-8 w-8 shrink-0 rounded-full"
-                onClick={() => onClick(-10)}
-                disabled={goal <= 200}
-              >
-                <Minus />
-                <span className="sr-only">Decrease</span>
-              </Button>
-              <div className="flex-1 text-center">
-                <div className="text-7xl font-bold tracking-tighter">
-                  {goal}
-                </div>
-                <div className="text-[0.70rem] uppercase text-muted-foreground">
-                  Calories/day
-                </div>
-              </div>
-              <Button
-                variant="outline"
-                size="icon"
-                className="h-8 w-8 shrink-0 rounded-full"
-                onClick={() => onClick(10)}
-                disabled={goal >= 400}
-              >
-                <Plus />
-                <span className="sr-only">Increase</span>
-              </Button>
-            </div>
-            <div className="mt-3 h-[120px]"></div>
-          </div>
-          <DrawerFooter>
-            <Button>Submit</Button>
-            <DrawerClose asChild>
-              <Button variant="outline">Cancel</Button>
-            </DrawerClose>
-          </DrawerFooter>
+        </div>
+
+        <div className="flex justify-center gap-8">
+          <Card className="p-4" style={{ fontSize: "30px" }}>
+            <CardTitle className="text-center">Meaning</CardTitle>
+            <CardContent className="text-lg">
+              The meaning of this word is very interesting.
+            </CardContent>
+          </Card>
+          <Card className="p-4" style={{ fontSize: "30px" }}>
+            <CardTitle>Meaning</CardTitle>
+            <CardContent className="text-lg">
+              The meaning of this word is very interesting.
+            </CardContent>
+          </Card>
+          <Card className="p-4" style={{ fontSize: "30px" }}>
+            <CardTitle>Meaning</CardTitle>
+            <CardContent className="text-lg">
+              The meaning of this word is very interesting.
+            </CardContent>
+          </Card>
         </div>
       </DrawerContent>
     </Drawer>
