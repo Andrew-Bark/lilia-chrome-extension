@@ -6,7 +6,7 @@ chrome.runtime.onInstalled.addListener(() => {
     });
   });
 
-const wordData = {language: "english", isDifficultyEnabled: false, word: "", sentence: "", difficulty: 0};
+const wordData = {targetLanguage: "English", isDifficultyEnabled: false, word: "", sentence: "", difficulty: 0, sourceLanguage: "english"};
 
 function getSelectedText() {
     const selection = window.getSelection() as Selection;
@@ -16,6 +16,8 @@ function getSelectedText() {
         console.log("more than one word selected")
         return;
     } 
+
+    //This part was written with the help of AI (helped figure out the while loop logic)
     if (text) {
 
         const range = selection.getRangeAt(0);
@@ -80,8 +82,8 @@ async function fetchTranslation(textObj: any, tab: any) {
     })
     const data = await response.json();
     const tabId = tab.id;
-    console.log("tabId", tabId);
-    chrome.tabs.sendMessage(tabId, { type: 'DISPLAY_TRANSLATION', data: { ...textObj } } , (response) => {
+    console.log("tabId", tabId, "data", data);
+    chrome.tabs.sendMessage(tabId, { type: 'DISPLAY_TRANSLATION', data: { ...wordData, data } } , (response) => {
       if (chrome.runtime.lastError) {
           console.log('Error sending message:', chrome.runtime.lastError);
       } else {
@@ -114,8 +116,10 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
     if (message.type === 'SEND_DATA') {
       
       console.log('Received data from app:', message.data);
-      if (message.data.language) {
-        wordData.language =message.data.language;
+      if (message.data.targetLanguage) {
+        wordData.targetLanguage =message.data.targetLanguage;
+      } else if(message.data.sourceLanguage) {
+        wordData.sourceLanguage = message.data.sourceLanguage;
       } else {
         wordData.isDifficultyEnabled =message.data.isDifficultyEnabled;
         if (message.data.isDifficultyEnabled) {

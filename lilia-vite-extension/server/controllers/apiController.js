@@ -17,11 +17,11 @@ const responseFormat = z.object({
 })
 
 async function promptOpenAI (wordData){
-    wordData.sourceLanguage = "german";
+    
     wordData.isDifficultyEnabled = true;
     const difficultyArray = ["A1", "A2", "B1", "B2", "C1", "C2"];
     const systemPrompt = `You are a helpful language expert who provides detailed analysis of ${wordData.sourceLanguage} words. 
-    You must respond in ${wordData.language} 
+    You must respond in ${wordData.targetLanguage} 
     Your response must include: 
     1. Meanings:
     a. The meaning of the user's word in the following sentence: ${wordData.sentence}.
@@ -47,13 +47,10 @@ async function promptOpenAI (wordData){
 module.exports =  {
     async postMessage(req, res){
         try {
-            
             const result = await promptOpenAI(req.body);
-            console.log(result)
-            // const result = {"meaning": "rice", "alternatives": "pasta", "examples": "the rice tasted nice."}
             res.send(result);
         } catch (error) {
-            console.error("controller get error", error)
+            console.error("controller post error", error)
             res.status(500).json({ message: "Internal server error" });
         }
     }
