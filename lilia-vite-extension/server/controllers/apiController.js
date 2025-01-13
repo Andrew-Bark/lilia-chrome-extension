@@ -5,15 +5,42 @@ const apiKey = process.env.OPENAI_API_KEY;
 const openai = new OpenAI({
     apiKey: apiKey,
  });
+const z = require('zod');
+const { zodResponseFormat } = require('openai/helpers/zod');
+
+
+const responseFormat = z.object({
+    meaning: z.string(),
+    other_meanings: z.array(z.string()),
+    synonyms: z.array(z.string()),
+    examples: z.array(z.string())
+})
 
 async function promptOpenAI (wordData){
-    console.log("wordData", wordData);
-    const completion = await openai.chat.completions.create({
+    wordData.sourceLanguage = "german";
+    wordData.isDifficultyEnabled = true;
+    const difficultyArray = ["A1", "A2", "B1", "B2", "C1", "C2"];
+    const systemPrompt = `You are a helpful language expert who provides detailed analysis of ${wordData.sourceLanguage} words. 
+    You must respond in ${wordData.language} 
+    Your response must include: 
+    1. Meanings:
+    a. The meaning of the user's word in the following sentence: ${wordData.sentence}.
+    b. Up to five other meanings the word can have in other contexts.
+    2. Synonyms: 
+    Up to five ${wordData.sourceLanguage} synonyms for the user's word. If the word is a noun, provide articles with each synonym.${wordData.isDifficultyEnabled ? ` Use words adequate for ${difficultyArray[wordData.difficulty]} level of understand if possible.`: ""}
+    3. Examples:
+    Up to three other sentences where the user's word can be used.`
+    console.log("wordData", systemPrompt);
+    const completion = await openai.beta.chat.completions.parse({
         model: 'gpt-4o',
-        messages: [{role: "developer", content: "you are a helpful assistant"}, {role: "user", content: "Write me a haiku about bananas"}],
+        messages: [
+            {role: "system", content: systemPrompt}, 
+            {role: "user", content: wordData.word}
+        ],
+        response_format: zodResponseFormat(responseFormat, "response"),
     });
 
-    console.log("completion", completion.choices[0].message);
+    return (completion.choices[0].message.parsed);
 }
 
 
@@ -21,8 +48,9 @@ module.exports =  {
     async postMessage(req, res){
         try {
             
-            // const result = promptOpenAI(req.body);
-            const result = {"meaning": "rice", "alternatives": "pasta", "examples": "the rice tasted nice."}
+            const result = await promptOpenAI(req.body);
+            console.log(result)
+            // const result = {"meaning": "rice", "alternatives": "pasta", "examples": "the rice tasted nice."}
             res.send(result);
         } catch (error) {
             console.error("controller get error", error)
