@@ -6,7 +6,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import de from "@/components/flags/de.svg";
 import en from "@/components/flags/en.svg";
 import fr from "@/components/flags/fr.svg";
@@ -36,16 +36,6 @@ const LanguageSelector = ({ type }: LanguageSelectorProps) => {
   ];
   const [userLanguage, setUserLanguage] = useState("English");
 
-  // useEffect(() => {
-  //   chrome.storage.local.get(["userLanguage"], (result) => {
-  //     if (result.sourceLanguage) {
-  //       setUserLanguage(result.sourceLanguage);
-  //     } else {
-  //       setUserLanguage("English");
-  //     }
-  //   });
-  // }, []);
-
   const handleLanguageChange = (language: string) => {
     setUserLanguage(language);
     chrome.runtime.sendMessage({
@@ -54,7 +44,6 @@ const LanguageSelector = ({ type }: LanguageSelectorProps) => {
     });
     chrome.storage.local.set({ [inputType]: language });
   };
-  // console.log(chrome.storage.local.get(["sourceLanguage"]));
   return (
     <div className="items-start flex flex-col space-y-4 ">
       <Label htmlFor="email">

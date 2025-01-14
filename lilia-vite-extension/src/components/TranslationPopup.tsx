@@ -1,5 +1,11 @@
 import { ReactNode, useState } from "react";
-import { XIcon } from "lucide-react";
+import {
+  BookAIcon,
+  BookIcon,
+  BookmarkPlusIcon,
+  Check,
+  XIcon,
+} from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -60,10 +66,10 @@ const cardArray: Record<string, Translations> = {
     OtherMeanings: "Andre betydninger",
   },
   French: {
-    Meaning: "Signification",
+    Meaning: "Définition",
     Synonyms: "Synonymes",
     Examples: "Exemples",
-    OtherMeanings: "Autres significations",
+    OtherMeanings: "Autres définitions",
   },
   German: {
     Meaning: "Bedeutung",
@@ -82,6 +88,7 @@ interface messageDataProps {
   messageData: {
     data: {
       meaning: string;
+      wordType: string;
       other_meanings: string[];
       synonyms: string[];
       examples: string[];
@@ -126,20 +133,41 @@ const CardComponent = ({
   );
 };
 export default function TranslationPopup({ messageData }: messageDataProps) {
+  console.log(messageData);
   const [openDrawer, setOpenDrawer] = useState(true);
+  const [saveWord, setSaveWord] = useState(false);
+
   console.log("data", messageData);
   const targetLanguage = messageData.targetLanguage;
   console.log("target", targetLanguage);
+  const handleAddWord = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/add", {
+        method: "POST",
+        body: JSON.stringify(messageData),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.status == 201) {
+        setSaveWord(true);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <Drawer open={openDrawer}>
       <DrawerContent>
         <DrawerTrigger asChild>
           <Button
-            variant="outline"
-            style={{ position: "absolute", top: "5px", right: "5px" }}
+            variant="ghost"
+            style={{ position: "absolute", top: "20px", right: "20px" }}
             onClick={() => setOpenDrawer(false)}
           >
-            <XIcon style={{ color: "black" }} />
+            <XIcon style={{ color: "black", width: "24px", height: "24px" }} />
           </Button>
         </DrawerTrigger>
         <div
@@ -153,16 +181,55 @@ export default function TranslationPopup({ messageData }: messageDataProps) {
             alignItems: "center",
           }}
         >
-          <DrawerHeader>
+          <DrawerHeader
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
             <DrawerTitle
               style={{
                 fontSize: "2.25rem",
                 lineHeight: "2.5rem",
                 color: "black",
+                position: "relative",
               }}
             >
               {messageData.word}
+              <Button
+                onClick={handleAddWord}
+                style={{
+                  position: "absolute",
+
+                  transform: "translate(5px, 5px)",
+                  color: "#e9559b",
+                }}
+                variant={"ghost"}
+              >
+                {saveWord ? (
+                  <Check style={{ width: "32px", height: "32px" }} />
+                ) : (
+                  <BookmarkPlusIcon style={{ width: "32px", height: "32px" }} />
+                )}
+              </Button>
             </DrawerTitle>
+
+            <div
+              style={{
+                fontStyle: "italic",
+                // fontWeight: "500",
+                // fontSize: "1.2em",
+                // transform: "translate(20px, 10px)",
+              }}
+              //   position: "absolute",
+              //   transform: "translate(120px, 10px)",
+              //   fontStyle: "italic",
+              //   fontWeight: "500",
+              //   fontSize: "1.2em",
+            >
+              {messageData.data.wordType}
+            </div>
           </DrawerHeader>
         </div>
 

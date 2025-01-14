@@ -13,6 +13,7 @@ function getSelectedText() {
     const text = selection.toString().trim();
     console.log("selectedText", text);
     if (text.split(' ').length > 1) {
+        
         console.log("more than one word selected")
         return;
     } 
