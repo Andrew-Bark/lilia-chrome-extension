@@ -1,8 +1,7 @@
-import { BookOpen, XIcon } from "lucide-react";
+import { BookOpen } from "lucide-react";
 import DifficultySelector from "./components/DifficultySelector";
 import LanguageSelector from "./components/LanguageSelector";
 import { Button } from "./components/ui/button";
-import Book from "@/components/book-icon.svg";
 import DictionaryComponent from "./components/DictionaryComponent";
 import { useState } from "react";
 function App() {

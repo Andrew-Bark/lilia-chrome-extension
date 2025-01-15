@@ -6,14 +6,14 @@ chrome.runtime.onInstalled.addListener(() => {
     });
   });
 
-const wordData = {targetLanguage: "English", isDifficultyEnabled: false, word: "", sentence: "", difficulty: 0, sourceLanguage: "english"};
+const wordData = {targetLanguage: "English", isDifficultyEnabled: false, word: "", sentence: "", difficulty: 0, sourceLanguage: "German"};
 
 function getSelectedText() {
     const selection = window.getSelection() as Selection;
     const text = selection.toString().trim();
     console.log("selectedText", text);
     if (text.split(' ').length > 1) {
-        
+
         console.log("more than one word selected")
         return;
     } 
