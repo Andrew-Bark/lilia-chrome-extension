@@ -24,11 +24,16 @@ npm i
 npm run dev
 ```
 
+
+in chrome, from chrome://extensions/
+1. Toggle developer mode
+2. Select "load unpacked"
+3. Select this project's dist folder
+
 ## 🎯 Usage
-1. Install the Chrome extension.
-2. Highlight a word or phrase on any webpage.
-3. View translations, synonyms, and contextual examples.
-4. Save words to your dictionary for future reference.
+1. Highlight a word or phrase on any webpage.
+2. View translations, synonyms, and contextual examples.
+3. Save words to your dictionary for future reference.
 
 ![App Preview](assets/app-preview.png)
 ## 🛠 Technologies Used
