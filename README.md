@@ -19,7 +19,7 @@ nodemon
 
 ### Frontend Setup
 ```sh
-cd client
+from the root folder
 npm i
 npm run dev
 ```
