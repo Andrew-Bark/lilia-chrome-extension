@@ -16,7 +16,6 @@ ReactDOM.createRoot(root).render(
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === "DISPLAY_TRANSLATION") {
-    console.log("message", message);
     sendResponse({ received: true });
     mountTranslationPopup(message.data);
   }

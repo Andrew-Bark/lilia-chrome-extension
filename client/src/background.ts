@@ -6,24 +6,25 @@ chrome.runtime.onInstalled.addListener(() => {
     });
   });
 
+
+  // initialise wordData with placeholder data
 const wordData = {targetLanguage: "English", isDifficultyEnabled: false, word: "", sentence: "", difficulty: 0, sourceLanguage: "German"};
 
+// this function returns the selected word and the sentence that it is contained within. It does so by looking for punctuation before and after the selected word.
+// If it can't find any, it looks for boundaries of a node. 
 function getSelectedText() {
     const selection = window.getSelection() as Selection;
     const text = selection.toString().trim();
-    console.log("selectedText", text);
     if (text.split(' ').length > 1) {
-
+        //TODO: Show user they can only select a word.
         console.log("more than one word selected")
         return;
     } 
 
-    //This part was written with the help of AI (helped figure out the while loop logic)
+    
     if (text) {
-
         const range = selection.getRangeAt(0);
         const node = range.startContainer;
-
         const nodeText = node.textContent as String;
         
         // Get the start and end offset of the selected text within the node
@@ -66,13 +67,12 @@ function getSelectedText() {
     return null;
 }
   
+
+// This function fetches the translation data from the backend, passing the user's preferences (diffuclty, target language, source language)
 async function fetchTranslation(textObj: any, tab: any) {
     // send this textObj to the server, with the parameters (difficultyenabled, difficulty, target language)
     wordData.word = textObj.word;
     wordData.sentence = textObj.sentence;
-
-    console.log("wordData", wordData);
-
     try {
       const response = await fetch('http://localhost:3000/message', {
         method: "POST", 
@@ -81,18 +81,18 @@ async function fetchTranslation(textObj: any, tab: any) {
             "Content-Type": "application/json"
         },
     })
-    const data = await response.json();
+    const translation = await response.json();
     const tabId = tab.id;
-    console.log("tabId", tabId, "data", data);
-    chrome.tabs.sendMessage(tabId, { type: 'DISPLAY_TRANSLATION', data: { ...wordData, data } } , (response) => {
+    // send the translation and user preferences to content.tsx, which mounts the translation component
+    chrome.tabs.sendMessage(tabId, { type: 'DISPLAY_TRANSLATION', data: { ...wordData, translation } } , (response) => {
       if (chrome.runtime.lastError) {
           console.log('Error sending message:', chrome.runtime.lastError);
       } else {
           console.log('Message sent successfully');
       }
-      console.log(response)
-  });
-    } catch (error) {
+    });
+    
+  } catch (error) {
       console.log('API fetching error', error)
     }
 }

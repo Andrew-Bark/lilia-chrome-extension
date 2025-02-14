@@ -1,11 +1,5 @@
 import { ReactNode, useState } from "react";
-import {
-  BookAIcon,
-  BookIcon,
-  BookmarkPlusIcon,
-  Check,
-  XIcon,
-} from "lucide-react";
+import { BookmarkPlusIcon, Check, XIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -218,15 +212,7 @@ export default function TranslationPopup({ messageData }: messageDataProps) {
             <div
               style={{
                 fontStyle: "italic",
-                // fontWeight: "500",
-                // fontSize: "1.2em",
-                // transform: "translate(20px, 10px)",
               }}
-              //   position: "absolute",
-              //   transform: "translate(120px, 10px)",
-              //   fontStyle: "italic",
-              //   fontWeight: "500",
-              //   fontSize: "1.2em",
             >
               {messageData.data.wordType}
             </div>
