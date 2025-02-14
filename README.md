@@ -12,18 +12,21 @@ To run the project locally, follow these steps:
 
 ### Backend Setup
 To run the backend service, you will need an [OpenAI API key](https://platform.openai.com/signup).
+create a .env file in the server folder and paste your key as OPENAI_API_KEY.
+
 You will also need to make sure you have [MongoDB](https://www.mongodb.com/docs/manual/installation/) installed.
+
 ```sh
 cd server
 npm i
-create a .env file and paste your key as OPENAI_API_KEY
 nodemon
 ```
 
 ### Frontend Setup
 ```sh
-from the root folder
+cd client
 npm i
+npm run build
 npm run dev
 ```
 
@@ -31,7 +34,7 @@ npm run dev
 in chrome, from chrome://extensions/
 1. Toggle developer mode
 2. Select "load unpacked"
-3. Select this project's dist folder
+3. Select dist folder inside /client 
 
 ## 🎯 Usage
 1. Highlight a word or phrase on any webpage.
