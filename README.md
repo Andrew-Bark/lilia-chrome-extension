@@ -30,7 +30,7 @@ npm run dev
 ```
 
 
-in chrome, from [the extensions tab](chrome://extensions/)
+in chrome, from the extensions tab: chrome://extensions/
 1. Toggle developer mode
 2. Select "load unpacked"
 3. Select the dist folder inside /client 
