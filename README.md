@@ -26,7 +26,6 @@ nodemon
 ```sh
 cd client
 npm i
-npm run build
 npm run dev
 ```
 
