@@ -11,7 +11,7 @@ This Chrome extension leverages AI to provide context-informed translations. It 
 To run the project locally, follow these steps:
 
 ### Backend Setup
-To run the backend service, you will need an [OpenAI API key](https://platform.openai.com/signup).
+To run the backend service, you will need an [OpenAI API key](https://platform.openai.com/playground/chat).
 create a .env file in the server folder and paste your key as OPENAI_API_KEY.
 
 You will also need to make sure you have [MongoDB](https://www.mongodb.com/docs/manual/installation/) installed.
@@ -31,10 +31,10 @@ npm run dev
 ```
 
 
-in chrome, from chrome://extensions/
+in chrome, from [the extensions tab](chrome://extensions/)
 1. Toggle developer mode
 2. Select "load unpacked"
-3. Select dist folder inside /client 
+3. Select the dist folder inside /client 
 
 ## 🎯 Usage
 1. Highlight a word or phrase on any webpage.
