@@ -11,9 +11,12 @@ This Chrome extension leverages AI to provide context-informed translations. It 
 To run the project locally, follow these steps:
 
 ### Backend Setup
+To run the backend service, you will need an [OpenAI API key](https://platform.openai.com/signup).
+You will also need to make sure you have [MongoDB](https://www.mongodb.com/docs/manual/installation/) installed.
 ```sh
 cd server
 npm i
+create a .env file and paste your key as OPENAI_API_KEY
 nodemon
 ```
 
